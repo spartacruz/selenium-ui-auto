@@ -1,0 +1,19 @@
+{
+  "name": "selenium-ui-auto",
+  "version": "1.0.0",
+  "description": "Selenium UI Auto POC",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha ./src/test --recursive --reporter mochawesome --reporter-options reportDir=reports/mochawesome/ --timeout 180000",
+    "report-bash": "open 'reports/mochawesome/mochawesome.html'"
+  },
+  "author": "Yuri",
+  "license": "ISC",
+  "dependencies": {
+    "chai": "^4.3.7",
+    "chromedriver": "^115.0.0",
+    "mocha": "^10.2.0",
+    "mochawesome": "^7.1.3",
+    "selenium-webdriver": "^4.11.1"
+  }
+}
