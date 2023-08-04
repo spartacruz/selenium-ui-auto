@@ -11,8 +11,11 @@ class LoginPage extends BasePage {
         this.passwordField = By.id("password");
         this.loginBtn = By.xpath("//button[@type='submit']");
         this.loginFailedWarning = By.xpath("//div[contains(@class, 'message-error')]");
+        this.emailRequiredWarning = By.id("email-error");
+        this.passwordRequiredWarning = By.id("password-error");
 
         this.warningFailedLoginWrongEmailPassword = "Email atau Password salah."
+        this.warningRequiredField = "Harus diisi."
     }
 
     async goToPage(){
@@ -45,6 +48,26 @@ class LoginPage extends BasePage {
         // this.webElementLoginHeader = await this.driver.findElement(this.loginFailedWarning);
         await this.driver.wait(until.elementIsVisible(this.driver.findElement(this.loginFailedWarning)), WAITING_ELEMENT_TIMEOUT);
         return this.driver.findElement(this.loginFailedWarning);
+    }
+
+    async warningFailedFieldRequired(field){
+        let locator = ''
+
+        if (field == "email") {
+            locator = this.emailRequiredWarning;
+        }
+
+        if (field == "password") {
+            locator = this.passwordRequiredWarning;
+        }
+
+        if (field !== "email" && field !== "password") {
+            throw "Must be email or password"
+        }
+
+        // this.webElementFieldRequiredWarning = await this.driver.findElement(locator);
+        await this.driver.wait(until.elementIsVisible(this.driver.findElement(locator)), WAITING_ELEMENT_TIMEOUT);
+        return this.driver.findElement(locator);
     }
 };
 
