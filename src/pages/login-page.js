@@ -35,7 +35,7 @@ class LoginPage extends BasePage {
         this.TEXT_CS_ORDER_WA = "Order via WA"
         this.TEXT_CS_OPERATIONAL_HOUR = "Jam Operasional CS: Senin - Jumat | 08.00 - 18.00 WIB"
 
-        this.TEXT_FOOTER_TITLE = "Ingin mengetahui lebih lanjut mengenai monotaro.id?"
+        this.TEXT_FOOTER_TITLE = "Ingin mengetahui leih lanjut mengenai monotaro.id?"
         this.TEXT_FOOTER_TENTANG_KAMI = "Tentang Kami"
         this.TEXT_FOOTER_TESTIMONI = "Testimoni Pelanggan"
         this.TEXT_FOOTER_KARIR = "Karir"
@@ -86,8 +86,9 @@ class LoginPage extends BasePage {
     }
 
     async isTextShowOnPage(textString){
+        // var result = await this.validateElementLocatedAndVisible(By.xpath(`//*[contains(normalize-space(text()),'${textString}')]`));
+        // var result = await this.validateElementLocatedAndVisible(By.xpath(`(//*[contains(normalize-space(),'${textString}')])[last()]`));
         var result = await this.validateElementLocatedAndVisible(By.xpath(`//*[contains(normalize-space(),'${textString}')]`));
-        
         if (result != true) {
             return result;
         } else {
@@ -142,6 +143,7 @@ class LoginPage extends BasePage {
         try {
             await this.driver.wait(until.elementLocated(locator), WAITING_ELEMENT_TIMEOUT);
             await this.driver.wait(until.elementIsVisible(this.driver.findElement(locator)), WAITING_ELEMENT_TIMEOUT);
+            return true
         } catch(err){
             console.log(err)
             return err
