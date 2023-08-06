@@ -1,4 +1,4 @@
-const loginPage = require('../pages/login-page.js');
+let loginPage = require('../pages/login-page.js');
 const expect = require('chai').expect;
 const assert = require('chai').assert;
 
@@ -10,7 +10,12 @@ describe('Login Page Test', function() {
 
     afterEach(async function() {
         await loginPage.closeBrowser()
-        sleep(3)
+        await loginPage.refreshSession();
+        sleep(2)
+    });
+
+    after(async function(){
+        await loginPage.closeBrowser()
     });
 
     it('LO_2 - (+) Open Login page', async function() {
@@ -22,7 +27,6 @@ describe('Login Page Test', function() {
         await loginPage.inputUsernameField("monotaroid@yopmail.com");
         await loginPage.inputPasswordField("Monotaroid1!");
         await loginPage.clickSubmitBtn();
-        sleep(5);
     });
 
     it('LO_4 - (-) Login with invalid email and valid password', async function() {
@@ -30,10 +34,9 @@ describe('Login Page Test', function() {
         await loginPage.inputUsernameField("xyz@yopmail.com");
         await loginPage.inputPasswordField("Monotaroid1!");
         await loginPage.clickSubmitBtn()
-        warningLoginHeaderText = await loginPage.warningFailedLoginHeader();
+        warningLoginHeaderText = await loginPage.warningFailedLoginHeaderElement();
         warningLoginHeaderText = await warningLoginHeaderText.getText();
         expect(warningLoginHeaderText).equal(loginPage.warningFailedLoginWrongEmailPassword);
-        sleep(5);
     });
 
     it('LO_5 - (-) Login with valid email and invalid password', async function() {
@@ -41,10 +44,9 @@ describe('Login Page Test', function() {
         await loginPage.inputUsernameField("monotaroid@yopmail.com");
         await loginPage.inputPasswordField("asdasdadadasd");
         await loginPage.clickSubmitBtn()
-        warningLoginHeaderText = await loginPage.warningFailedLoginHeader();
+        warningLoginHeaderText = await loginPage.warningFailedLoginHeaderElement();
         warningLoginHeaderText = await warningLoginHeaderText.getText()
         expect(warningLoginHeaderText).equal(loginPage.warningFailedLoginWrongEmailPassword);
-        sleep(5)
     });
 
     it('LO_6 - (-) Login with invalid email and invalid password', async function() {
@@ -52,10 +54,9 @@ describe('Login Page Test', function() {
         await loginPage.inputUsernameField("xyz@yopmail.com");
         await loginPage.inputPasswordField("asdasdadadasd");
         await loginPage.clickSubmitBtn();
-        warningLoginHeaderText = await loginPage.warningFailedLoginHeader();
+        warningLoginHeaderText = await loginPage.warningFailedLoginHeaderElement();
         warningLoginHeaderText = await warningLoginHeaderText.getText()
         expect(warningLoginHeaderText).equal(loginPage.warningFailedLoginWrongEmailPassword);
-        sleep(5)
     });
 
     it('LO_7 - (-) Login with blank email and valid password', async function() {
@@ -65,7 +66,6 @@ describe('Login Page Test', function() {
         warningEmailField = await loginPage.warningFailedFieldRequired("email");
         warningEmailField = await warningEmailField.getText();
         expect(warningEmailField).equal(loginPage.warningRequiredField);
-        sleep(5)
     });
 
     it('LO_8 - (-) Login with valid email and blank password', async function() {
@@ -75,10 +75,9 @@ describe('Login Page Test', function() {
         warningPasswordField = await loginPage.warningFailedFieldRequired("password");
         warningPasswordField = await warningPasswordField.getText();
         expect(warningPasswordField).equal(loginPage.warningRequiredField);
-        sleep(5)
     });
 
-    it.only('LO_9 - (-) Login with blank email and blank password', async function() {
+    it('LO_9 - (-) Login with blank email and blank password', async function() {
         await loginPage.goToPage();
         await loginPage.clickSubmitBtn();
         warningPasswordField = loginPage.warningFailedFieldRequired("password");
@@ -90,7 +89,6 @@ describe('Login Page Test', function() {
         warningPasswordField = await loginPage.warningFailedFieldRequired("password");
         warningPasswordField = await warningPasswordField.getText();
         expect(warningPasswordField).equal(loginPage.warningRequiredField);
-        sleep(5)
     });
 
     function sleep(second) {
